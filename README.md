@@ -62,9 +62,9 @@ samples, guidance on mobile development, and a full API reference.
 
 > navigate-with-named-routes.dart
 
-> xxxx.dart
+> animating-widget-across-screens.dart
 
-> xxxx.dart
+> animating-widget-across-screens-extent.dart
 
 > xxxx.dart
 
