@@ -39,7 +39,9 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
-  assets: [images/]
+  assets:
+    - images/
+    - config.json
 #  assets:
   # Image from https://pixabay.com/en/photos/pavlova
 #  - images/pavlova.png

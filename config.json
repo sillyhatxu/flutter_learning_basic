@@ -1,0 +1,23 @@
+{
+  "app_name": "sillyhat",
+  "app_version": "1.0",
+  "server_url": "www.test.com",
+  "permissions": [
+    "ACCESS_COARSE_LOCATION",
+    "ACCESS_FINE_LOCATION",
+    "CAMERA",
+    "MANAGE_DOCUMENTS",
+    "READ_CONTACTS",
+    "READ_CALENDAR",
+    "WRITE_CALENDAR"
+  ],
+  "config": {
+    "googleMaps": {
+      "apiKey": "STRING"
+    },
+    "googleSignIn": {
+      "apiKey": "STRING",
+      "certificateHash": "STRING"
+    }
+  }
+}
