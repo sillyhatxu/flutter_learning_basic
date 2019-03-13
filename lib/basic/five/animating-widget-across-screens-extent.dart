@@ -12,7 +12,6 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-
   final List<String> imageList;
 
   MyApp({Key key, @required this.imageList}) : super(key: key);
@@ -25,18 +24,31 @@ class MyApp extends StatelessWidget {
         appBar: AppBar(
           title: Text('Flutter layout demo'),
         ),
-        body: Center(child: _buildGrid()),
+        body: GestureDetector(child: _buildGrid(context)),
       ),
     );
   }
 
   // #docregion grid
-  Widget _buildGrid() => GridView.extent(
+  Widget _buildGrid(BuildContext context) => GridView.extent(
       maxCrossAxisExtent: 150,
       padding: const EdgeInsets.all(4),
       mainAxisSpacing: 4,
       crossAxisSpacing: 4,
-      children: _buildGridTileList(30));
+//      children: _buildGridTileList(30));
+      children: _buildGridImageListJust(context));
+
+  Widget _buildGridBuild(BuildContext context) => GridView.builder(
+        gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            mainAxisSpacing: 10.0,
+            crossAxisSpacing: 10.0,
+            childAspectRatio: 1.0),
+        itemBuilder: (BuildContext context, int index) {
+          return _buildImage(context, index);
+        },
+        itemCount: 30,
+      );
 
   // The images are saved with names pic0.jpg, pic1.jpg...pic29.jpg.
   // The List.generate() constructor allows an easy way to create
@@ -47,27 +59,57 @@ class MyApp extends StatelessWidget {
             child: Image.asset('images/pic$i.jpg'),
           ));
 
-  // #enddocregion grid
-
-  ListTile _tile(String title, String subtitle, IconData icon) => ListTile(
-        title: Text(title,
-            style: TextStyle(
-              fontWeight: FontWeight.w500,
-              fontSize: 20,
-            )),
-        subtitle: Text(subtitle),
-        leading: Icon(
-          icon,
-          color: Colors.blue[500],
+  GestureDetector _buildImage(BuildContext context, int index) =>
+      GestureDetector(
+        child: Hero(
+          tag: 'imageHero',
+          child: Image.asset('images/pic$index.jpg'),
         ),
+        onTap: () {
+          Navigator.push(context, MaterialPageRoute(builder: (_) {
+            return MyDetailScreen(imageURL: 'images/pic$index.jpg');
+          }));
+        },
       );
-// #enddocregion list
+
+  List<GestureDetector> _buildGridImageListJust(BuildContext context) =>
+      List.generate(
+          30,
+          (i) => GestureDetector(
+                child: Hero(
+                  tag: 'imageHero',
+                  child: Image.asset('images/pic$i.jpg'),
+                ),
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (_) {
+                    return MyDetailScreen(imageURL: 'images/pic$i.jpg');
+                  }));
+                },
+              ));
+
+  List<GestureDetector> _buildGridImageList(BuildContext context) {
+    List<GestureDetector> gestureList = List(30);
+    for (var i = 0; i < imageList.length; i++) {
+      gestureList[i] = GestureDetector(
+        child: Hero(
+          tag: 'imageHero',
+          child: Image.asset(imageList[i]),
+        ),
+        onTap: () {
+          Navigator.push(context, MaterialPageRoute(builder: (_) {
+            return MyDetailScreen(imageURL: imageList[i]);
+          }));
+        },
+      );
+    }
+    return gestureList;
+  }
 }
 
-class DetailScreen extends StatelessWidget {
+class MyDetailScreen extends StatelessWidget {
   final String imageURL;
 
-  DetailScreen({Key key, @required this.imageURL}) : super(key: key);
+  MyDetailScreen({Key key, @required this.imageURL}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
